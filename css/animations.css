@@ -1,0 +1,109 @@
+/* =========================================================
+   animations.css
+   ========================================================= */
+
+@keyframes pulseDot{
+  0%{ box-shadow:0 0 0 0 rgba(46,139,87,.35); }
+  70%{ box-shadow:0 0 0 6px rgba(46,139,87,0); }
+  100%{ box-shadow:0 0 0 0 rgba(46,139,87,0); }
+}
+
+/* ---- Reveal on scroll (IntersectionObserver toggles .is-visible) ---- */
+.reveal{
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity var(--dur-3) var(--ease), transform var(--dur-3) var(--ease);
+}
+.reveal.is-visible{ opacity:1; transform:none; }
+
+.reveal-stagger > *{
+  opacity:0; transform:translateY(12px);
+  transition:opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease);
+}
+.reveal-stagger.is-visible > *{ opacity:1; transform:none; }
+.reveal-stagger.is-visible > *:nth-child(1){ transition-delay:0ms; }
+.reveal-stagger.is-visible > *:nth-child(2){ transition-delay:60ms; }
+.reveal-stagger.is-visible > *:nth-child(3){ transition-delay:120ms; }
+.reveal-stagger.is-visible > *:nth-child(4){ transition-delay:180ms; }
+.reveal-stagger.is-visible > *:nth-child(5){ transition-delay:240ms; }
+.reveal-stagger.is-visible > *:nth-child(6){ transition-delay:300ms; }
+
+/* ---- Transição entre views ---- */
+.view{
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease);
+}
+.view.is-active{
+  display:block;
+  opacity:1;
+  transform:none;
+}
+
+/* ---- Intro / splash ---- */
+.intro{
+  position:fixed; inset:0; z-index:200;
+  background:radial-gradient(circle at 30% 20%, #012A5E 0%, var(--azul-900) 55%, #000E22 100%);
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity var(--dur-3) var(--ease), visibility 0s linear var(--dur-3);
+}
+.intro.is-hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+
+.intro__canvas{ position:absolute; inset:0; }
+
+.intro__content{
+  position:relative; z-index:2; text-align:center; color:var(--branco);
+  animation:introRise 900ms var(--ease) both;
+  padding:0 20px;
+}
+.intro__logo{
+  width:64px; height:64px; object-fit:contain; margin:0 auto 14px; display:block;
+}
+.intro__mark{
+  font-size:15px; font-weight:700; letter-spacing:.04em;
+  color:rgba(255,255,255,.5); margin-bottom:18px;
+}
+.intro__title{ font-size:44px; font-weight:700; color:var(--branco); margin-bottom:14px; }
+.intro__tagline{ font-size:15px; color:rgba(255,255,255,.6); max-width:420px; margin:0 auto 8px; }
+.intro__desc{ font-size:13px; color:rgba(255,255,255,.4); max-width:440px; margin:0 auto; }
+
+@keyframes introRise{
+  from{ opacity:0; transform:translateY(16px); }
+  to{ opacity:1; transform:none; }
+}
+
+/* ---- Entrada de seção ao trocar de view (React remonta com key nova) ---- */
+.view-appear{
+  animation: viewFadeIn 480ms var(--ease);
+}
+@keyframes viewFadeIn{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:none; }
+}
+
+/* ---- Sensor pulse na torre ---- */
+.sensor-pulse{
+  animation:sensorPulse 2.6s var(--ease) infinite;
+  transform-origin:center;
+}
+@keyframes sensorPulse{
+  0%{ r:2.4; opacity:.9; }
+  70%{ r:9; opacity:0; }
+  100%{ r:9; opacity:0; }
+}
+
+.data-beam{
+  stroke-dasharray:4 6;
+  animation:beamFlow 1.6s linear infinite;
+}
+@keyframes beamFlow{
+  to{ stroke-dashoffset:-20; }
+}
+
+/* ---- Count-up helper class (JS toggles content) ---- */
+.count-up{ font-variant-numeric:tabular-nums; }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
